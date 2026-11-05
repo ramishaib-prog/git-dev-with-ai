@@ -1,4 +1,3 @@
-# git-dev-with-ai
 # Grade Calculator
 
 ## Project Description
@@ -15,16 +14,31 @@ The first version includes:
 - Handling for the case where no scores are entered
 
 ## AI Tool Used
-_(To be completed in Stage 2)_
+Claude (by Anthropic), used through the Claude chat interface.
 
 ## AI Assistance
-_(To be completed in Stage 2)_
+I asked Claude to help improve the program's handling of invalid input.
+Specifically, I asked it to stop the program from crashing when a user types
+text instead of a number, and to make sure scores outside a sensible range are
+not accepted.
 
 ## New or Modified Features
-_(To be completed in Stage 2)_
+- Added a `get_valid_score()` function that keeps prompting until the user
+  enters a valid score or types `done`.
+- Added `try/except` error handling so non-numeric input shows a friendly
+  message instead of crashing.
+- Added a range check so only scores from 0 to 100 are accepted (this also
+  rejects values like `nan` and `inf`).
+- Updated the main loop to use the new function, and updated the comments to
+  explain the new logic.
 
 ## Evaluation of AI Output
-_(To be completed in Stage 2)_
+I accepted Claude's approach of moving input handling into its own function
+because it keeps `main()` simple and makes the validation logic easy to follow.
+I tested it with letters, negative numbers, numbers over 100, and `nan`, and
+each one was rejected correctly while valid scores still worked. I kept the
+0-100 limit because it fits a typical grading scale, though a course with
+extra credit would need a higher limit.
 
 ## How to Run the Program
 1. Make sure Python 3 is installed.

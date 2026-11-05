@@ -1,5 +1,6 @@
 # Grade Calculator
 # Lets the user enter scores for a course, then shows the average and letter grade.
+# Stage 2 update: added input validation so invalid entries no longer crash the program.
 
 
 def calculate_average(scores):
@@ -25,23 +26,52 @@ def get_letter_grade(average):
         return "F"
 
 
+def get_valid_score():
+    """Ask for one score and keep asking until the input is valid.
+
+    Returns the score as a float, or None if the user types 'done'.
+    Returning None (instead of a number) lets main() tell the difference
+    between "the user finished" and "the user entered a score".
+    """
+    while True:
+        entry = input("Enter a score 0-100 (or 'done'): ").strip()
+
+        if entry.lower() == "done":
+            return None
+
+        # float() raises ValueError for text like "abc", so we catch it
+        # and re-prompt instead of letting the program crash.
+        try:
+            score = float(entry)
+        except ValueError:
+            print("Invalid input. Please enter a number, or 'done' to finish.")
+            continue
+
+        # Written as "not 0 <= score <= 100" on purpose: values like "nan"
+        # convert to a float successfully, but every comparison with nan is
+        # False, so this check also rejects them (and "inf").
+        if not 0 <= score <= 100:
+            print("Score must be between 0 and 100.")
+            continue
+
+        return score
+
+
 def main():
     scores = []  # Stores every score the user enters
 
     print("=== Grade Calculator ===")
     print("Enter your scores one at a time. Type 'done' when finished.\n")
 
-    # Keep asking for scores until the user types 'done'.
+    # Keep collecting scores until get_valid_score() signals 'done' with None.
     # A sentinel word is used because we don't know in advance how many scores there will be.
     while True:
-        entry = input("Enter a score (or 'done'): ")
+        score = get_valid_score()
 
-        if entry.lower() == "done":
+        if score is None:
             break
 
-        # Convert text to a number so it can be used in math.
-        # (Assumes valid input for now; error handling can be added later.)
-        scores.append(float(entry))
+        scores.append(score)
 
     # Only show results if at least one score was entered.
     if len(scores) == 0:
