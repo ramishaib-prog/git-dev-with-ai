@@ -27,29 +27,22 @@ def get_letter_grade(average):
 
 
 def get_valid_score():
-    """Ask for one score and keep asking until the input is valid.
-
-    Returns the score as a float, or None if the user types 'done'.
-    Returning None (instead of a number) lets main() tell the difference
-    between "the user finished" and "the user entered a score".
-    """
+    """Return a valid score, 'undo', or None when the user types 'done'."""
     while True:
-        entry = input("Enter a score 0-100 (or 'done'): ").strip()
+        entry = input("Enter a score 0-100 (or 'undo' or 'done'): ").strip()
+        command = entry.lower()
 
-        if entry.lower() == "done":
+        if command == "done":
             return None
+        if command == "undo":
+            return "undo"
 
-        # float() raises ValueError for text like "abc", so we catch it
-        # and re-prompt instead of letting the program crash.
         try:
             score = float(entry)
         except ValueError:
-            print("Invalid input. Please enter a number, or 'done' to finish.")
+            print("Invalid input. Enter a number, 'undo', or 'done'.")
             continue
 
-        # Written as "not 0 <= score <= 100" on purpose: values like "nan"
-        # convert to a float successfully, but every comparison with nan is
-        # False, so this check also rejects them (and "inf").
         if not 0 <= score <= 100:
             print("Score must be between 0 and 100.")
             continue
@@ -61,15 +54,22 @@ def main():
     scores = []  # Stores every score the user enters
 
     print("=== Grade Calculator ===")
-    print("Enter your scores one at a time. Type 'done' when finished.\n")
+    print("Enter scores one at a time. Type 'undo' to remove the last score.")
+    print("Type 'done' when finished.\n")
 
-    # Keep collecting scores until get_valid_score() signals 'done' with None.
-    # A sentinel word is used because we don't know in advance how many scores there will be.
     while True:
         score = get_valid_score()
 
         if score is None:
             break
+
+        if score == "undo":
+            if scores:
+                removed_score = scores.pop()
+                print(f"Removed score: {removed_score:g}")
+            else:
+                print("There are no scores to undo.")
+            continue
 
         scores.append(score)
 
