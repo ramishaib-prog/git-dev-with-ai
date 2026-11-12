@@ -84,6 +84,8 @@ def main():
     print("\n--- Results ---")
     print(f"Scores entered: {scores}")
     print(f"Number of scores: {len(scores)}")
+    print(f"Highest score: {max(scores)}")
+    print(f"Lowest score: {min(scores)}")
     print(f"Average: {average:.2f}")
     print(f"Letter grade: {letter}")
 
