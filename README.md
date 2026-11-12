@@ -45,3 +45,11 @@ extra credit would need a higher limit.
 2. Open a terminal in the project folder.
 3. Run: `python3 main.py`
 4. Enter scores when prompted and type `done` to see results.
+
+## Feature Development Comparison
+
+On the `manual-feature` branch, I added the highest and lowest scores to the Grade Calculator’s results. I used Python’s `max()` and `min()` functions on the list of scores entered by the user. ChatGPT gave me a practice example and helped me spot that my first version was using a sample list. I updated both lines to use the actual scores. When I entered 70 and 60, the program correctly showed 70 as the highest score and 60 as the lowest.
+
+On the `ai-feature` branch, I added an `undo` command so users can fix a mistake before finishing. ChatGPT drafted the code, and I added it to `main.py` and reviewed the changes with `git diff`. The command uses `pop()` to remove the most recent score. If the list is empty, the program displays a message and keeps asking for input.
+
+The AI-generated code worked on my first run, and I kept it as written. I felt more confident with the manual approach because I understood what each line did and could see how switching from the sample list to scores made the results reflect what I actually entered.
